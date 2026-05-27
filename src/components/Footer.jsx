@@ -1,63 +1,86 @@
-import React from 'react'
+import { useGeo } from '../GeoContext'
 
 export default function Footer() {
+  const { isIndia } = useGeo()
+  const yr = new Date().getFullYear()
+
   return (
-    <footer className="border-t border-crew-border px-6 py-12">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+    <footer className="border-t border-[#1A1D23] px-5 md:px-8 py-12 safe-bottom">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
 
-        {/* Logo + tagline */}
-        <div>
-          <div className="flex items-center gap-2.5 mb-2">
-            <div className="relative w-6 h-6">
-              <div className="absolute inset-0 rounded-full border border-crew-green opacity-60" />
-              <div className="absolute inset-[4px] rounded-full bg-crew-green" />
-            </div>
-            <span className="font-display font-700 text-[14px] text-crew-white">
-              CrewHire <span className="text-crew-muted font-400">Labs</span>
-            </span>
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <img
+              src="/logo.png"
+              alt="CrewHire Labs"
+              className="h-12 w-auto object-contain mb-4"
+              style={{ filter: 'drop-shadow(0 0 8px rgba(0,232,122,0.2))' }}
+            />
+            <p className="text-[#4A5568] text-[12px] leading-relaxed mb-3">
+              AI growth teams for D2C brands.<br />
+              Starting with India. Going global.
+            </p>
+            <p className="terminal-text text-[10px] opacity-30">
+              {isIndia ? '🇮🇳 INDIA · INR · RAZORPAY' : '🌍 GLOBAL · USD · STRIPE'}
+            </p>
           </div>
-          <p className="text-[12px] font-mono text-crew-muted">Your AI Crew</p>
-          <p className="text-[11px] font-mono text-crew-muted mt-1 opacity-60">crewhirelabs.online</p>
-        </div>
 
-        {/* Links */}
-        <div className="flex flex-wrap gap-8">
+          {/* Product */}
           <div>
-            <div className="text-[10px] font-mono text-crew-muted uppercase tracking-widest mb-3">Product</div>
-            <div className="flex flex-col gap-2">
-              {['CrewHire Workforce', 'CrewHire Marketplace', 'CrewHire OS', 'CrewHire Intelligence'].map(l => (
-                <a key={l} href="#product" className="text-[12px] text-crew-muted hover:text-crew-white transition-colors font-body">{l}</a>
-              ))}
-            </div>
+            <p className="terminal-text text-[10px] opacity-40 mb-4 tracking-widest">PRODUCT</p>
+            {['CrewHire Workforce','CrewHire OS','CrewHire Intelligence','CrewHire Marketplace'].map(l => (
+              <a key={l} href="#"
+                className="block text-[12px] text-[#4A5568] hover:text-[#E8E6DF] transition-colors mb-2.5 font-body">
+                {l}
+              </a>
+            ))}
           </div>
+
+          {/* Agents */}
           <div>
-            <div className="text-[10px] font-mono text-crew-muted uppercase tracking-widest mb-3">Company</div>
-            <div className="flex flex-col gap-2">
-              {['About', 'Pricing', 'Waitlist', 'Contact'].map(l => (
-                <a key={l} href={`#${l.toLowerCase()}`} className="text-[12px] text-crew-muted hover:text-crew-white transition-colors font-body">{l}</a>
-              ))}
-            </div>
+            <p className="terminal-text text-[10px] opacity-40 mb-4 tracking-widest">AGENTS</p>
+            {['Sales Agent','Retention Agent','Content Agent','Support Agent','Founder Agent','Analytics Agent'].map(l => (
+              <a key={l} href="#agents"
+                className="block text-[12px] text-[#4A5568] hover:text-[#E8E6DF] transition-colors mb-2.5 font-body">
+                {l}
+              </a>
+            ))}
           </div>
+
+          {/* Company */}
+          <div>
+            <p className="terminal-text text-[10px] opacity-40 mb-4 tracking-widest">COMPANY</p>
+            {['About','Pricing','Waitlist','Contact'].map(l => (
+              <a key={l} href={`#${l.toLowerCase()}`}
+                className="block text-[12px] text-[#4A5568] hover:text-[#E8E6DF] transition-colors mb-2.5 font-body">
+                {l}
+              </a>
+            ))}
+            <a href="#waitlist"
+              className="btn-primary inline-block px-5 py-2.5 rounded-xl text-[12px] mt-4">
+              Start free →
+            </a>
+          </div>
+
         </div>
 
-        {/* CTA */}
-        <div>
-          <a href="#waitlist" className="btn-primary px-5 py-2.5 rounded-xl text-[13px] block text-center mb-3">
-            Start free trial →
-          </a>
-          <p className="text-[10px] font-mono text-crew-muted text-center">7 days free · No card</p>
-        </div>
-
-      </div>
-
-      <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-crew-border flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-[11px] font-mono text-crew-muted">
-          © 2025 CrewHire Labs. All rights reserved.
-        </p>
-        <div className="flex gap-6">
-          {['Privacy', 'Terms', 'Contact'].map(l => (
-            <a key={l} href="#" className="text-[11px] font-mono text-crew-muted hover:text-crew-white transition-colors">{l}</a>
-          ))}
+        {/* Bottom bar */}
+        <div className="border-t border-[#1A1D23] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <img src="/logo.png" alt="" className="h-5 w-auto opacity-30" />
+            <p className="terminal-text text-[10px] opacity-25">
+              © {yr} CREWHIRE LABS · YOUR AI CREW. YOUR GROWTH.
+            </p>
+          </div>
+          <div className="flex gap-6">
+            {['Privacy','Terms','Contact'].map(l => (
+              <a key={l} href="#"
+                className="terminal-text text-[10px] opacity-25 hover:opacity-60 transition-opacity">
+                {l.toUpperCase()}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

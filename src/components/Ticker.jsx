@@ -1,28 +1,27 @@
-import React from 'react'
-
 const ITEMS = [
-  '12 upsells sent while you slept',
-  'Campaign drafted in 40 seconds',
-  '8 churn risks flagged automatically',
-  'SKU return rate detected & acted on',
-  'Eid campaign — 3 variants ready',
-  'VIP customer identified & rewarded',
-  'Morning briefing delivered at 8am',
-  'New review sentiment analysed instantly',
-  'Cross-sell sequence activated',
-  'Brand Brain updated with new catalog',
+  '14 cart recoveries sent while founder slept',
+  'Diwali campaign drafted in 38 seconds',
+  '6 churn risks flagged and rescued automatically',
+  'SEO blog published — zero human effort',
+  'Return query resolved in 12 seconds',
+  'Instagram caption batch: 7 posts ready',
+  'Morning briefing: revenue up 12% WoW',
+  'VIP customer identified — loyalty offer sent',
+  'SKU risk detected — Sales Agent notified',
+  'WhatsApp blast scheduled for Eid campaign',
+  '₹2.4L influenced by AI crew this week',
+  'Support Agent resolved 9 queries — 0 escalations',
 ]
 
 export default function Ticker() {
   const doubled = [...ITEMS, ...ITEMS]
-
   return (
-    <div className="border-y border-crew-border bg-crew-card py-4 overflow-hidden">
-      <div className="flex animate-scroll whitespace-nowrap" style={{ width: 'max-content' }}>
+    <div className="border-y border-[#1A1D23] bg-[#080A0D] py-3.5 overflow-hidden">
+      <div className="flex anim-ticker whitespace-nowrap" style={{ width: 'max-content' }}>
         {doubled.map((item, i) => (
-          <div key={i} className="flex items-center gap-4 mx-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-crew-green flex-shrink-0" />
-            <span className="text-[12px] font-mono text-crew-muted">{item}</span>
+          <div key={i} className="flex items-center gap-3 mx-10">
+            <span className="w-1 h-1 rounded-full bg-[#00E87A] opacity-60 flex-shrink-0" />
+            <span className="terminal-text opacity-50 text-[11px]">{item}</span>
           </div>
         ))}
       </div>
