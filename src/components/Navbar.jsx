@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useGeo } from '../GeoContext'
+import Logo from './Logo'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const { isIndia, toggle, loading } = useGeo()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50)
@@ -12,7 +11,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  const navLinks = [
+  const links = [
     { label: 'How it works', href: '#how' },
     { label: 'Agents',       href: '#agents' },
     { label: 'Pricing',      href: '#pricing' },
@@ -24,19 +23,17 @@ export default function Navbar() {
     }`}>
       <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between gap-4">
 
-        {/* Logo */}
-        <a href="#" className="flex items-center flex-shrink-0 group">
-          <img
-            src="/logo.png"
-            alt="CrewHire Labs — Your AI Crew. Your Growth."
-            className="h-10 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
-            style={{ filter: 'drop-shadow(0 0 8px rgba(0,232,122,0.25))' }}
-          />
+        {/* SVG Logo */}
+        <a href="#" className="flex-shrink-0 group" aria-label="CrewHire Labs home">
+          <div style={{ filter: 'drop-shadow(0 0 8px rgba(0,232,122,0.2))', transition: 'filter 0.3s ease' }}
+            className="group-hover:brightness-110">
+            <Logo height={36} />
+          </div>
         </a>
 
-        {/* Desktop nav */}
+        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-7">
-          {navLinks.map(l => (
+          {links.map(l => (
             <a key={l.label} href={l.href}
               className="text-[13px] text-[#4A5568] hover:text-[#E8E6DF] transition-colors font-body tracking-wide">
               {l.label}
@@ -44,64 +41,36 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right side */}
+        {/* CTA */}
         <div className="flex items-center gap-3">
-
-          {/* Geo toggle */}
-          {!loading && (
-            <div className="geo-toggle hidden sm:flex">
-              <button className={`geo-btn ${isIndia ? 'active' : ''}`} onClick={() => toggle(true)}>
-                🇮🇳 INR
-              </button>
-              <button className={`geo-btn ${!isIndia ? 'active' : ''}`} onClick={() => toggle(false)}>
-                🌍 USD
-              </button>
-            </div>
-          )}
-
           <a href="#waitlist"
             className="hidden md:block btn-primary text-[12px] px-4 py-2.5 rounded-xl whitespace-nowrap">
             Start free →
           </a>
-
-          {/* Mobile hamburger */}
+          {/* Mobile burger */}
           <button onClick={() => setOpen(!open)}
-            className="md:hidden p-2 text-[#4A5568] hover:text-[#E8E6DF]"
-            aria-label="Toggle menu">
+            className="md:hidden p-2 text-[#4A5568] hover:text-[#E8E6DF]" aria-label="Menu">
             <div className="w-5 space-y-1.5">
-              <span className={`block h-px bg-current transition-all duration-300 ${open ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`block h-px bg-current transition-all duration-300 ${open ? 'opacity-0' : ''}`} />
-              <span className={`block h-px bg-current transition-all duration-300 ${open ? '-rotate-45 -translate-y-2' : ''}`} />
+              <span className={`block h-px bg-current transition-all duration-300 ${open ? 'rotate-45 translate-y-2' : ''}`}/>
+              <span className={`block h-px bg-current transition-all duration-300 ${open ? 'opacity-0' : ''}`}/>
+              <span className={`block h-px bg-current transition-all duration-300 ${open ? '-rotate-45 -translate-y-2' : ''}`}/>
             </div>
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-96' : 'max-h-0'}`}>
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-80' : 'max-h-0'}`}>
         <div className="bg-[#060608]/98 backdrop-blur-xl border-t border-[#1A1D23] px-5 py-5 flex flex-col gap-4">
-
-          {/* Logo in mobile menu */}
-          <img src="/logo.png" alt="CrewHire Labs" className="h-8 w-auto object-contain self-start"
-            style={{ filter: 'drop-shadow(0 0 6px rgba(0,232,122,0.2))' }} />
-
-          {navLinks.map(l => (
+          <Logo height={30} />
+          {links.map(l => (
             <a key={l.label} href={l.href} onClick={() => setOpen(false)}
               className="text-[14px] text-[#4A5568] hover:text-[#E8E6DF] transition-colors py-1">
               {l.label}
             </a>
           ))}
-
-          {/* Mobile geo toggle */}
-          {!loading && (
-            <div className="geo-toggle self-start">
-              <button className={`geo-btn ${isIndia ? 'active' : ''}`} onClick={() => toggle(true)}>🇮🇳 INR</button>
-              <button className={`geo-btn ${!isIndia ? 'active' : ''}`} onClick={() => toggle(false)}>🌍 USD</button>
-            </div>
-          )}
-
           <a href="#waitlist" onClick={() => setOpen(false)}
-            className="btn-primary text-[13px] px-5 py-3 rounded-xl text-center mt-1">
+            className="btn-primary text-[13px] px-5 py-3.5 rounded-xl text-center mt-1">
             Start free 7-day trial →
           </a>
         </div>

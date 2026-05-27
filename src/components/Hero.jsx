@@ -1,131 +1,167 @@
 import { useEffect, useRef, useState } from 'react'
 import { useGeo } from '../GeoContext'
+import Logo from './Logo'
 
-const FEED = [
-  { agent: 'Sales', init: 'SA', color: '#00E87A',   msg: 'Cart recovery sent to 14 customers — ₹42,800 recovered', t: '1m' },
-  { agent: 'Content', init: 'CA', color: '#7C6EF5', msg: 'SEO blog drafted: "Best skincare routine for Indian skin"', t: '8m' },
-  { agent: 'Retention', init: 'RA', color: '#F5A623',msg: 'Churn alert: 6 customers inactive 28+ days — rescue started', t: '22m' },
-  { agent: 'Support', init: 'SU', color: '#4FC3F7', msg: 'Resolved 9 return queries — 0 escalations needed', t: '1h' },
-  { agent: 'Founder', init: 'FA', color: '#FF6B6B', msg: 'Morning brief ready — revenue up 12% WoW, 3 action items', t: '6h' },
+// CrewHire Labs OWN internal agents — not a fake brand
+const INTERNAL_FEED = [
+  { agent: 'Lead Agent',      init: 'LA', color: '#00E87A',
+    msg: 'Found 12 new D2C brands on Shopify India — DMs sent, 3 opened', t: '2m' },
+  { agent: 'Content Agent',   init: 'CA', color: '#7C6EF5',
+    msg: 'Published: "How AI crews cut D2C CAC by 40%" — SEO score 94/100', t: '11m' },
+  { agent: 'Analytics Agent', init: 'AA', color: '#F5A623',
+    msg: 'Week 3 report: MRR up ₹28k · 4 trials started · CAC ₹0 (organic)', t: '34m' },
+  { agent: 'Social Agent',    init: 'SA', color: '#4FC3F7',
+    msg: 'LinkedIn post drafted: "We run CrewHire Labs on our own agents" — 847 views', t: '1h' },
+  { agent: 'Founder Agent',   init: 'FA', color: '#FF6B6B',
+    msg: 'Morning brief: 2 inbound leads, 1 trial converting today, 0 churn this week', t: '6h' },
 ]
 
-const TYPEWORDS = ['Sales.', 'Retention.', 'Content.', 'Support.', 'Growth.']
+// Highlighted keyword component
+function Highlight({ children, color = '#00E87A' }) {
+  return (
+    <mark style={{
+      background: `${color}18`,
+      color: color,
+      borderBottom: `1px solid ${color}40`,
+      borderRadius: '3px',
+      padding: '0 4px',
+    }}>
+      {children}
+    </mark>
+  )
+}
+
+// Words that cycle in the typewriter
+const CYCLE_PHRASES = [
+  'grows revenue.',
+  'retains customers.',
+  'creates content.',
+  'handles support.',
+  'runs 24/7.',
+]
 
 export default function Hero() {
-  const orbRef = useRef(null)
-  const orb2Ref = useRef(null)
-  const [wordIdx, setWordIdx] = useState(0)
+  const orb1 = useRef(null)
+  const orb2 = useRef(null)
+  const [phraseIdx, setPhraseIdx] = useState(0)
   const [displayed, setDisplayed] = useState('')
   const [typing, setTyping] = useState(true)
-  const { isIndia } = useGeo()
+  const { geo, loading } = useGeo()
 
-  /* floating orbs */
+  // Floating orbs
   useEffect(() => {
-    let frame, t = 0
-    const animate = () => {
-      t += 0.004
-      if (orbRef.current) orbRef.current.style.transform = `translate(${Math.sin(t)*25}px,${Math.cos(t*0.7)*18}px)`
-      if (orb2Ref.current) orb2Ref.current.style.transform = `translate(${Math.cos(t*0.9)*20}px,${Math.sin(t*1.1)*14}px)`
-      frame = requestAnimationFrame(animate)
+    let f, t = 0
+    const go = () => {
+      t += 0.003
+      if (orb1.current) orb1.current.style.transform = `translate(${Math.sin(t)*22}px,${Math.cos(t*0.7)*16}px)`
+      if (orb2.current) orb2.current.style.transform = `translate(${Math.cos(t*0.9)*18}px,${Math.sin(t*1.1)*12}px)`
+      f = requestAnimationFrame(go)
     }
-    animate()
-    return () => cancelAnimationFrame(frame)
+    go()
+    return () => cancelAnimationFrame(f)
   }, [])
 
-  /* typewriter */
+  // Typewriter
   useEffect(() => {
-    const word = TYPEWORDS[wordIdx]
-    let i = displayed.length
+    const phrase = CYCLE_PHRASES[phraseIdx]
     if (typing) {
-      if (i < word.length) {
-        const tid = setTimeout(() => setDisplayed(word.slice(0, i+1)), 80)
-        return () => clearTimeout(tid)
+      if (displayed.length < phrase.length) {
+        const t = setTimeout(() => setDisplayed(phrase.slice(0, displayed.length + 1)), 70)
+        return () => clearTimeout(t)
       } else {
-        const tid = setTimeout(() => setTyping(false), 1600)
-        return () => clearTimeout(tid)
+        const t = setTimeout(() => setTyping(false), 1800)
+        return () => clearTimeout(t)
       }
     } else {
-      if (i > 0) {
-        const tid = setTimeout(() => setDisplayed(word.slice(0, i-1)), 45)
-        return () => clearTimeout(tid)
+      if (displayed.length > 0) {
+        const t = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35)
+        return () => clearTimeout(t)
       } else {
-        setWordIdx(v => (v + 1) % TYPEWORDS.length)
+        setPhraseIdx(v => (v + 1) % CYCLE_PHRASES.length)
         setTyping(true)
       }
     }
-  }, [displayed, typing, wordIdx])
+  }, [displayed, typing, phraseIdx])
+
+  const h = geo?.hero
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-5 md:px-8 pt-24 pb-16 overflow-hidden grid-bg">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-5 md:px-8 pt-20 pb-16 overflow-hidden">
 
-      {/* Moving grid */}
-      <div className="absolute inset-0 anim-grid opacity-60 pointer-events-none"
+      {/* Animated grid */}
+      <div className="absolute inset-0 pointer-events-none anim-grid"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0,232,122,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.04) 1px,transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(0,232,122,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.03) 1px,transparent 1px)',
           backgroundSize: '40px 40px',
         }} />
 
       {/* Orbs */}
-      <div ref={orbRef} className="absolute top-1/4 left-1/4 w-72 h-72 md:w-96 md:h-96 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle,rgba(0,232,122,0.1) 0%,transparent 70%)', willChange: 'transform' }} />
-      <div ref={orb2Ref} className="absolute bottom-1/3 right-1/5 w-56 h-56 md:w-72 md:h-72 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle,rgba(124,110,245,0.08) 0%,transparent 70%)', willChange: 'transform' }} />
+      <div ref={orb1} className="absolute top-1/4 left-1/5 w-64 h-64 md:w-96 md:h-96 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle,rgba(0,232,122,0.09) 0%,transparent 70%)', willChange: 'transform' }} />
+      <div ref={orb2} className="absolute bottom-1/3 right-1/5 w-48 h-48 md:w-72 md:h-72 rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle,rgba(124,110,245,0.07) 0%,transparent 70%)', willChange: 'transform' }} />
 
-      {/* Scan line */}
+      {/* Horizontal scan line */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00E87A]/20 to-transparent"
-          style={{ animation: 'scanMove 6s ease-in-out infinite', top: '40%' }} />
+        <div className="absolute left-0 right-0 h-px"
+          style={{
+            background: 'linear-gradient(90deg,transparent,rgba(0,232,122,0.15),transparent)',
+            animation: 'scanMove 7s ease-in-out infinite',
+            top: '35%',
+          }} />
       </div>
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl w-full">
 
-        {/* Logo — hero top */}
+        {/* Logo — large in hero */}
         <div className="anim-fade-up d1 mb-8">
-          <img
-            src="/logo.png"
-            alt="CrewHire Labs — Your AI Crew. Your Growth."
-            className="h-16 md:h-20 w-auto object-contain mx-auto"
-            style={{ filter: 'drop-shadow(0 0 24px rgba(0,232,122,0.3))' }}
-          />
+          <div style={{ filter: 'drop-shadow(0 0 20px rgba(0,232,122,0.28))' }}>
+            <Logo height={56} showTagline />
+          </div>
         </div>
 
-        {/* Status pill */}
-        <div className="anim-fade-up d1 mb-7">
+        {/* Kicker */}
+        <div className="anim-fade-up d2 mb-7">
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[#1A1D23] bg-[#0D0F12] hud">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00E87A] anim-pulse-dot" />
-            <span className="terminal-text">
-              {isIndia ? 'NOW IN PRIVATE BETA — INDIA 🇮🇳' : 'NOW IN PRIVATE BETA — GLOBAL 🌍'}
+            <span className="terminal-text text-[11px]">
+              {loading ? 'LOADING...' : geo?.hero.kicker}
             </span>
           </div>
         </div>
 
-        {/* Headline */}
-        <h1 className="anim-fade-up d2 font-display font-800 tracking-tight leading-[1.04] mb-5 mobile-hero-title"
-          style={{ fontSize: 'clamp(38px,6.5vw,80px)' }}>
-          <span className="block text-[#E8E6DF]">AI growth teams for</span>
-          <span className="block text-[#E8E6DF]">D2C brands. Running</span>
-          <span className="block">
-            <span className="anim-shimmer">24/7. No salary.</span>
+        {/* Headline with highlights */}
+        <h1 className="anim-fade-up d3 font-display font-800 tracking-tight leading-[1.06] mb-5"
+          style={{ fontSize: 'clamp(34px,6vw,72px)' }}>
+          <span className="block text-[#E8E6DF]">
+            {h?.headline1 ?? 'Stop running your brand'}
+          </span>
+          <span className="block text-[#E8E6DF]">
+            {h?.headline2 ?? 'on spreadsheets and WhatsApp.'}
+          </span>
+          <span className="block mt-1">
+            <Highlight>Get an AI growth team.</Highlight>
           </span>
         </h1>
 
-        {/* Typewriter sub */}
-        <div className="anim-fade-up d3 mb-4">
-          <p className="font-mono text-[13px] md:text-[15px] text-[#4A5568]">
-            Your AI crew handles{' '}
-            <span className="text-[#00E87A]">{displayed}</span>
+        {/* Typewriter */}
+        <div className="anim-fade-up d3 mb-4 h-6 flex items-center justify-center">
+          <p className="font-mono text-[13px] md:text-[14px] text-[#4A5568]">
+            Your crew&nbsp;
+            <span className="text-[#00E87A] font-500">{displayed}</span>
             <span className="text-[#00E87A] anim-blink">|</span>
           </p>
         </div>
 
-        <p className="anim-fade-up d3 text-[#4A5568] text-[14px] md:text-[16px] max-w-lg leading-relaxed mb-10 mobile-pad">
-          Stop running your brand manually. CrewHire Labs gives your D2C brand a full AI growth team — trained on your brand, working every hour, for a fraction of one hire.
+        {/* Sub copy with key phrases highlighted */}
+        <p className="anim-fade-up d4 text-[#4A5568] text-[14px] md:text-[16px] max-w-xl leading-relaxed mb-10">
+          {geo?.hero.sub ?? 'CrewHire Labs gives your D2C brand a full AI growth team — trained on your brand, working every hour.'}
         </p>
 
         {/* CTAs */}
-        <div className="anim-fade-up d4 flex flex-col sm:flex-row gap-3 w-full sm:w-auto mb-12">
+        <div className="anim-fade-up d4 flex flex-col sm:flex-row gap-3 w-full sm:w-auto mb-14">
           <a href="#waitlist"
-            className="btn-primary px-7 py-4 rounded-2xl text-[14px] md:text-[15px] mobile-full text-center">
+            className="btn-primary px-8 py-4 rounded-2xl text-[14px] md:text-[15px] mobile-full text-center">
             Start free — 7 days, no card →
           </a>
           <a href="#how"
@@ -134,54 +170,63 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Live dashboard preview */}
+        {/* ── INTERNAL AGENTS SHOWCASE ── */}
         <div className="anim-fade-up d5 w-full max-w-lg anim-float-y">
-          <p className="terminal-text mb-3 opacity-60 tracking-widest">LIVE CREW ACTIVITY — NYLA BEAUTY CO.</p>
+          <div className="flex items-center justify-between mb-3 px-1">
+            <p className="terminal-text text-[10px] opacity-50 tracking-widest">CREWHIRE LABS · OUR OWN AGENTS · LIVE</p>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00E87A] anim-pulse-dot" />
+              <span className="terminal-text text-[10px]" style={{ color: '#00E87A' }}>RUNNING NOW</span>
+            </div>
+          </div>
+
           <div className="card-dark rounded-2xl overflow-hidden border border-[#1A1D23] hud">
             {/* Window bar */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1A1D23] bg-[#080A0D]">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[#1A1D23] bg-[#080A0D]">
               <div className="flex gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-                <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+                <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
+                <div className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+                <div className="w-2 h-2 rounded-full bg-[#28C840]" />
               </div>
-              <span className="terminal-text opacity-40 ml-2">crewhirelabs.online/dashboard</span>
-              <div className="ml-auto flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#00E87A] anim-pulse-dot" />
-                <span className="terminal-text text-[10px]">LIVE</span>
-              </div>
+              <span className="terminal-text text-[10px] opacity-40 ml-2">crewhirelabs · internal dashboard</span>
             </div>
 
-            {/* Feed */}
-            {FEED.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 px-4 py-3 border-b border-[#1A1D23]/60 last:border-0 hover:bg-white/[0.015] transition-colors">
+            {/* Feed items */}
+            {INTERNAL_FEED.map((item, i) => (
+              <div key={i}
+                className="flex items-start gap-3 px-4 py-3 border-b border-[#1A1D23]/60 last:border-0 hover:bg-white/[0.012] transition-colors">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-display font-700 flex-shrink-0 mt-0.5"
-                  style={{ background: `${item.color}15`, color: item.color, border: `1px solid ${item.color}30` }}>
+                  style={{ background: `${item.color}15`, color: item.color, border: `1px solid ${item.color}25` }}>
                   {item.init}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[11px] font-display font-600 text-[#E8E6DF]">{item.agent} Agent</span>
-                    <div className="w-1 h-1 rounded-full" style={{ background: item.color }} />
+                    <span className="text-[11px] font-display font-600 text-[#E8E6DF]">{item.agent}</span>
+                    <div className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: item.color }} />
                   </div>
-                  <p className="text-[11px] text-[#4A5568] leading-relaxed line-clamp-2">{item.msg}</p>
+                  <p className="text-[11px] text-[#4A5568] leading-relaxed">{item.msg}</p>
                 </div>
-                <span className="terminal-text text-[10px] opacity-50 flex-shrink-0">{item.t}</span>
+                <span className="terminal-text text-[10px] opacity-40 flex-shrink-0">{item.t}</span>
               </div>
             ))}
 
-            {/* Footer */}
+            {/* Status footer */}
             <div className="px-4 py-2.5 bg-[#080A0D] flex items-center justify-between">
-              <span className="terminal-text opacity-50">5 agents active</span>
-              <span className="terminal-text" style={{ color: '#00E87A' }}>● ALL SYSTEMS GO</span>
+              <span className="terminal-text text-[10px] opacity-40">5 internal agents · building in public</span>
+              <span className="terminal-text text-[10px]" style={{ color: '#00E87A' }}>● ALL RUNNING</span>
             </div>
           </div>
+
+          {/* Caption */}
+          <p className="terminal-text text-[10px] opacity-30 text-center mt-3">
+            WE RUN CREWHIRE LABS ON OUR OWN AGENTS. THIS IS REAL.
+          </p>
         </div>
 
         {/* Scroll hint */}
-        <div className="anim-fade-in d7 mt-12 flex flex-col items-center gap-2">
+        <div className="anim-fade-in d7 mt-10 flex flex-col items-center gap-2">
           <div className="w-px h-8 bg-gradient-to-b from-transparent to-[#1A1D23]" />
-          <span className="terminal-text opacity-40">scroll</span>
+          <span className="terminal-text text-[10px] opacity-30">scroll</span>
         </div>
       </div>
     </section>
