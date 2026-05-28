@@ -141,7 +141,8 @@ export default function Footer() {
               <p className="terminal-text text-[10px] opacity-40 mb-5 tracking-widest">COMPANY</p>
               <div className="space-y-3">
                 {['About','Pricing','Waitlist','Contact'].map(l => (
-                  <a key={l} href={`#${l.toLowerCase()}`}
+                  <a key={l}
+                    href={l==='About'?'/about':l==='Contact'?'mailto:hello@crewhirelabs.online':`#${l.toLowerCase()}`}
                     className="block text-[13px] text-[#4A5568] hover:text-[#00E87A] transition-colors font-body">{l}</a>
                 ))}
               </div>
@@ -195,7 +196,8 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-5">
               {['Privacy','Terms','Contact'].map(l => (
-                <a key={l} href="#"
+                <a key={l}
+                  href={l==='Privacy'?'/privacy':l==='Terms'?'/terms':'mailto:hello@crewhirelabs.online'}
                   className="terminal-text text-[10px] opacity-20 hover:opacity-60 transition-opacity hover:text-[#00E87A]">
                   {l.toUpperCase()}
                 </a>

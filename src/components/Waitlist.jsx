@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { useGeo } from '../GeoContext'
 
-// Replace YOUR_FORMSPREE_ID with your actual Formspree form ID
-// Get one free at https://formspree.io (takes 2 min)
-const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'
+// FormSubmit.co — completely free, zero account needed
+// First submission sends a confirmation email to activate
+const FORMSUBMIT_EMAIL = 'hello@crewhirelabs.online'
 
 function useInView() {
   const ref = useRef(null)
@@ -36,22 +36,23 @@ export default function Waitlist() {
       localStorage.setItem('ch_waitlist', JSON.stringify(list))
     } catch {}
 
-    // Submit to Formspree if ID is set
-    if (FORMSPREE_ID !== 'YOUR_FORMSPREE_ID') {
-      try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            email,
-            brand_name: brand || 'Not provided',
-            region: geo?.code === 'IN' ? '🇮🇳 India' : '🌍 Global',
-            source: 'crewhirelabs.online waitlist',
-          }),
-        })
-        if (!res.ok) throw new Error()
-      } catch { /* still show success */ }
-    }
+    // Submit to FormSubmit.co — free, no account needed
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          email,
+          brand_name: brand || 'Not provided',
+          region: geo?.code === 'IN' ? '🇮🇳 India' : '🌍 Global',
+          source: 'crewhirelabs.online waitlist',
+          _subject: `New CrewHire Labs waitlist signup — ${geo?.code === 'IN' ? 'India' : 'Global'}`,
+          _captcha: 'false',
+          _template: 'table',
+        }),
+      })
+      if (!res.ok) throw new Error()
+    } catch { /* still show success — email saved locally as backup */ }
 
     setStatus('success')
     setEmail('')
