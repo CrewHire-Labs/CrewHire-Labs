@@ -12,6 +12,7 @@ export default function Navbar() {
   }, [])
 
   const links = [
+    { label: 'Why CrewHire', href: '#why' },
     { label: 'How it works', href: '#how' },
     { label: 'Agents',       href: '#agents' },
     { label: 'Pricing',      href: '#pricing' },

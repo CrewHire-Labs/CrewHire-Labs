@@ -1,15 +1,17 @@
 import { GeoProvider } from './GeoContext'
-import Navbar     from './components/Navbar'
-import Hero       from './components/Hero'
-import Ticker     from './components/Ticker'
-import HowItWorks from './components/HowItWorks'
-import Agents     from './components/Agents'
-import Pricing    from './components/Pricing'
-import Waitlist   from './components/Waitlist'
-import Footer     from './components/Footer'
-import Privacy    from './pages/Privacy'
-import Terms      from './pages/Terms'
-import About      from './pages/About'
+import Navbar          from './components/Navbar'
+import Hero            from './components/Hero'
+import Ticker          from './components/Ticker'
+import WhyCrewHire     from './components/WhyCrewHire'
+import HowItWorks      from './components/HowItWorks'
+import HermesAdvantage from './components/HermesAdvantage'
+import Agents          from './components/Agents'
+import Pricing         from './components/Pricing'
+import Waitlist        from './components/Waitlist'
+import Footer          from './components/Footer'
+import Privacy         from './pages/Privacy'
+import Terms           from './pages/Terms'
+import About           from './pages/About'
 
 function Router() {
   const path = window.location.pathname
@@ -22,7 +24,9 @@ function Router() {
       <main>
         <Hero />
         <Ticker />
+        <WhyCrewHire />
         <HowItWorks />
+        <HermesAdvantage />
         <Agents />
         <Pricing />
         <Waitlist />

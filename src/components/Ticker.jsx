@@ -1,16 +1,16 @@
 const ITEMS = [
-  'Lead Agent found 12 new D2C brands on Shopify India today',
-  'Content Agent published SEO blog — score 94/100',
-  'Analytics Agent: MRR up ₹28k this week · CAC ₹0 organic',
-  'Social Agent drafted LinkedIn post — 847 impressions',
-  'Founder Agent morning brief delivered — 0 churn this week',
-  'AI growth team running campaigns while founder sleeps',
-  'Sales Agent recovered 3 abandoned carts — ₹18,400 saved',
-  'Retention Agent flagged 6 churn risks — rescue sequences started',
-  'Support Agent resolved 9 queries — zero escalations',
-  'Campaign Agent drafted Diwali offer — 3 variants ready',
-  'Partnership Agent: 2 influencer responses received',
-  'Analytics Agent: ROAS 4.2x this month — up from 2.8x',
+  'Hermes agents remember every interaction — forever. No resets. No starting over.',
+  'Lead Agent found 12 new D2C brands on Shopify India today — DMs sent automatically',
+  'Content Agent published SEO blog — written in brand tone, score 94/100, zero human effort',
+  'Analytics Agent: CrewHire MRR tracking live — every rupee accounted for',
+  'Your Sales Agent gets smarter every week — learns what works for YOUR brand specifically',
+  'Retention Agent flagged 6 at-risk customers — win-back sequences launched automatically',
+  'Support Agent resolved 9 queries in 3 minutes — founder never saw them',
+  'Hermes self-improvement loop: agents 40% faster after 20 learned brand skills',
+  'Campaign Agent drafted Diwali campaign — 3 variants ready, all in your brand voice',
+  'Founder Agent morning brief delivered — wins, issues, priorities. 8am every day.',
+  'Brand Brain updated — all agents now know your new product launch details',
+  'One solo founder. One product. Running on the same agents we sell you.',
 ]
 
 export default function Ticker() {
