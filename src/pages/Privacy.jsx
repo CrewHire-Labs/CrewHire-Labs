@@ -13,7 +13,7 @@ export default function Privacy() {
       </LBox>
 
       <LegalSection title="Who we are">
-        <LP>CrewHire Labs is an AI growth platform for D2C brands, operated as an independent startup by Shiladitya Mallick, based in Kolkata, West Bengal, India.</LP>
+        <LP>CrewHire Labs is an AI growth platform for D2C brands, operated as an independent startup by Shiladitya Mallick, based in India.</LP>
         <LP>For any privacy-related questions, contact us at:</LP>
         <div className="font-mono text-[12px] text-[#00E87A] bg-[#0D0F12] border border-[#1A1D23] rounded-lg px-4 py-3 space-y-1">
           <p>Email: hello@crewhirelabs.online</p>
@@ -115,7 +115,7 @@ export default function Privacy() {
           <p>Email: hello@crewhirelabs.online</p>
           <p>Response time: within 7 business days</p>
           <p>Data Protection Contact: Shiladitya Mallick</p>
-          <p>Location: Kolkata, West Bengal, India</p>
+          <p>Location: India</p>
         </div>
       </LegalSection>
 

@@ -18,7 +18,7 @@ export default function Terms() {
       </LegalSection>
 
       <LegalSection title="Who provides this service">
-        <LP>CrewHire Labs is operated by Shiladitya Mallick, an independent founder based in Kolkata, West Bengal, India.</LP>
+        <LP>CrewHire Labs is operated by Shiladitya Mallick, an independent founder based in India.</LP>
         <div className="font-mono text-[12px] text-[#00E87A] bg-[#0D0F12] border border-[#1A1D23] rounded-lg px-4 py-3 space-y-1">
           <p>Contact: hello@crewhirelabs.online</p>
           <p>LinkedIn: linkedin.com/in/shiladityamallick</p>
@@ -120,7 +120,7 @@ export default function Terms() {
       </LegalSection>
 
       <LegalSection title="Governing law">
-        <LP>These Terms are governed by the laws of India. Any disputes will be resolved under the jurisdiction of the courts of Kolkata, West Bengal, India.</LP>
+        <LP>These Terms are governed by the laws of India. Any disputes will be resolved under the jurisdiction of the courts of India.</LP>
         <LP>For international users, these terms do not limit any mandatory consumer protection rights available in your jurisdiction.</LP>
       </LegalSection>
 
@@ -134,7 +134,7 @@ export default function Terms() {
         <div className="font-mono text-[12px] text-[#00E87A] bg-[#0D0F12] border border-[#1A1D23] rounded-lg px-4 py-3 space-y-1">
           <p>Email: hello@crewhirelabs.online</p>
           <p>Founder: Shiladitya Mallick</p>
-          <p>Location: Kolkata, West Bengal, India</p>
+          <p>Location: India</p>
         </div>
       </LegalSection>
 

@@ -13,9 +13,25 @@ export default function About() {
       </LBox>
 
       <LegalSection title="The founder">
-        <LP>Hi — I'm Shiladitya Mallick, a solo developer and founder based in Kolkata, West Bengal. I built CrewHire Labs because I kept seeing the same problem: D2C founders in India working 16-hour days doing manually what AI should be doing for them.</LP>
-        <LP>Content written by hand. Customer follow-ups missed. Campaigns delayed because no one had time. Cart recoveries not sent. Churn not detected until too late.</LP>
-        <LP>The tools existed. The problem was that they were 10 separate subscriptions, each needing a specialist to run them — and most D2C founders couldn't afford either the tools or the people.</LP>
+        <div className="flex flex-col sm:flex-row gap-6 mb-4">
+          <img
+            src="/founder.jpg"
+            alt="Shiladitya Mallick — Founder CrewHire Labs"
+            className="w-28 h-28 rounded-2xl object-cover object-top flex-shrink-0"
+            style={{ filter: 'grayscale(15%) contrast(1.05)', border: '1px solid #1A1D23' }}
+          />
+          <div>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {['Head of eCommerce','D2C Brand Growth','AI Development','Software Engineering'].map(tag => (
+                <span key={tag} className="terminal-text text-[10px] px-2 py-1 rounded-lg"
+                  style={{ background: '#00E87A12', color: '#00E87A', border: '1px solid #00E87A25' }}>{tag}</span>
+              ))}
+            </div>
+            <LP>I'm Shiladitya Mallick — a founder who has spent years working at the intersection of D2C brands and technology. As Head of eCommerce, I've built growth systems for brands and managed P&L. As a developer, I've built AI-powered tools from scratch. That combination is rare and it's exactly what CrewHire Labs is built from.</LP>
+          </div>
+        </div>
+        <LP>I built CrewHire Labs because I kept seeing the same gap: D2C founders drowning in operational work that AI should be doing — and AI tools built by people who had never actually run a store, handled a festival launch, or dealt with 200 customer DMs in a single day.</LP>
+        <LP>Content written by hand. Follow-ups missed. Campaigns delayed. Cart recoveries not sent. Churn detected too late. The tools existed — but they were 10 separate subscriptions needing specialists, and most D2C founders couldn't afford either.</LP>
         <LP>So I built a crew. One place. AI agents trained on your brand. Working 24/7. For a fraction of one hire.</LP>
         <div className="flex flex-wrap gap-3 mt-4">
           <a href="https://www.linkedin.com/in/shiladityamallick/" target="_blank" rel="noopener noreferrer"
@@ -85,7 +101,7 @@ export default function About() {
           <p>Email: hello@crewhirelabs.online</p>
           <p>LinkedIn: linkedin.com/in/shiladityamallick</p>
           <p>Instagram: instagram.com/byshiladityamallick</p>
-          <p>Location: Kolkata, West Bengal, India</p>
+          <p>Location: India</p>
         </div>
       </LegalSection>
 
